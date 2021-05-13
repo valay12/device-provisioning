@@ -1,0 +1,12 @@
+{% block distribution_switch %}
+vlan 100-999
+!
+aaa new-model
+!
+aaa authentication login default local group tacacs+
+aaa authorization exec default local group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+!
+spanning-tree vlan 1-4094 priority 1
+!
+{% endblock %}

@@ -1,0 +1,16 @@
+---
+- name: Configure device as per template
+  ios_config:
+    src: "{{ playbook_dir }}//templates/ios_template.j2"
+    backup: true
+    save_when: always
+  when: configure
+
+- name: Generate offline configuration file
+  template:
+    src: "{{ playbook_dir }}/templates/ios_template.j2"
+    dest: "{{ playbook_dir }}/output/{{ inventory_hostname }}.cfg"
+#  loop:
+#    - ios_template.j2
+#    - ios_branch_router.j2
+  delegate_to: localhost

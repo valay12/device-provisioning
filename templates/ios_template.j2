@@ -1,0 +1,20 @@
+hostname {{ location }}{{ site }}{{ function }}
+!
+no ip domain-lookup
+ip domain-name company.com
+!
+username support privilege 7 secret 5 $1$fGbk$pnXiaeyD1fLDIDebWYJoA/
+username superuser privilege 15 secret 5 $1$fGbk$pnXiaeyD1fLDIDebWYJoA/
+!
+{% if function == 'BR' %}
+{% include 'ios_branch_router.j2' %}
+{% elif function == 'DST' %}
+{% include 'ios_distribution_switch.j2' %}
+{% endif %}
+!
+banner exec ^C
+EXEC BANNER^C
+banner incoming ^C
+INCOMING BANNER^C
+banner login ^C
+LOGIN BANNER^C

@@ -1,0 +1,37 @@
+---
+- name: "PLAY 1: Generate device group"
+  gather_facts: false
+  hosts: all
+  connection: local
+  vars: 
+    function_codes: {'Branch_Router': 'BR', 'Distribution_Switch': 'DST'}
+  tasks:
+    - name: Load request.yml
+      include_vars:
+        file: "{{ playbook_dir }}/request.yml"
+        name: request
+    - name: Load site codes
+      include_vars:
+        file: "{{ playbook_dir }}/static_vars/site_codes.yml"
+        name: site_codes
+    - name: Generate device group
+      add_host:
+         name: "{{ item.mgmt_ip }}"
+         group: devices
+         ansible_hostname: "{{ item.mgmt_ip }}"
+         ansible_network_os: "{{ item.platform }}"
+         ansible_user: "{{ item.credentials }}"
+         ansible_password: "{{ item.credentials }}"
+         function: "{{ item.function }}"
+         configure: "{{ item.configure }}"
+         location: "{{ item.location | extract(site_codes) }}"
+         site: "{{ item.site }}"
+         function: "{{ item.function | extract(function_codes) }}"
+      loop: "{{ request.request }}"
+- name: "PLAY 2: Configure devices"
+  hosts: devices
+  gather_facts: false
+  tasks:
+    - name: "Configuration tasks for {{ ansible_network_os | upper }}"
+      include_tasks: "{{ playbook_dir }}/tasks/{{ ansible_network_os }}_tasks.yml"
+...

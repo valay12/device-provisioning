@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - include_vars:
+        file: "{{ playbook_dir }}/static_vars/site_codes.yml"
+        name: site_codes
+    - debug:
+        msg: "{{ 'Singapore' | extract(site_codes) }}"

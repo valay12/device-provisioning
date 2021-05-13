@@ -1,0 +1,17 @@
+---
+request:
+  - mgmt_ip: 10.1.1.11
+    platform: ios
+    credentials: admin
+    location: Singapore
+    site: BR079
+    function: Branch_Router
+    configure: true
+  - mgmt_ip: 10.1.1.12
+    platform: ios
+    credentials: admin
+    location: London
+    site: HQ1
+    function: Distribution_Switch
+    configure: false
+...

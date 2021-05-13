@@ -1,0 +1,15 @@
+{% block branch_router %}
+vrf definition Local
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition MGMT
+ !
+ address-family ipv4
+ exit-address-family
+!
+interface gigabitethernet0/1
+speed auto
+{% endblock %}
+
